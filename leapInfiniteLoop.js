@@ -1,18 +1,15 @@
 var controllerOptions = {};
 
-Leap.loop(controllerOptions, function(frame) {
 var i = 0;
 
+Leap.loop(controllerOptions, function(frame)
+{
+  console.log("Hello begining of Leap.loop");
 
-//background(220);
-var x = screen.innerWidth/2;
-var y = screen.innerHeight/2;
-
-while (true) {
-//  console.log(i);
-
-
-//circle(x,y,50);
-    }
-  }
+  console.log(i);
+  i++;
+  clear();
+  draw();
+  console.log("Hello end Leap.loop");
+}
 );
