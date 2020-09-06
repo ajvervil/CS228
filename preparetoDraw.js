@@ -18,13 +18,14 @@ function draw() {
   // Draw a circle
   circle(x,y,50);
 }
+function HandleFinger(indexFinger) {
+  console.log("Index Finger is:", indexFinger); // same element as finger[1]
+  console.log("tipPosition is:", indexFinger.tipPosition); //
+}
 function HandleHand(hands) {
   var hand = hands[0];
   console.log("Hand is:", hand);
-  var fingers = hand.fingers;
-  var index = hand.indexFinger;
-  console.log("Index Finger is:", index); // same element as finger[1]
-
+  HandleFinger(hand.indexFinger);
 }
 function HandleFrame(frame) {
   if (frame.hands.length==1)
