@@ -1,6 +1,6 @@
 function setup() {
   createCanvas(window.innerWidth,window.innerHeight);
-//  background(220); // grey background
+  background(220); // grey background
 }
 function getRandomIntInclusive(min,max) {
   min = Math.ceil(min);
@@ -44,7 +44,13 @@ console.log("Raw tipPosition coordinates x:", x, " Read y: ", indexFinger.tipPos
   if (y>rawYMax) y=rawYMax;
 //  if (z<rawYMin) z=rawYMin; //The z-coordinate is not used
 //  if (z>rawYMax) z=rawYMax;
-
+/////
+background(220);
+// Use color() function
+let c = color('green');
+// Use fill() function to fill color
+fill(c);
+/////
   circle(x,y,circle_diameter);
   console.log("Corrected tipPosition coordinates x:", x, "tipPosition coordinates y:", y,"tipPosition coordinates z:", z); //
 
