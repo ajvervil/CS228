@@ -7,7 +7,9 @@ function getRandomIntInclusive(min,max) {
   max = Math.floor(max);
   return Math.floor(Math.random()*(max-min+1) + min);
 }
-function draw() {
+function draw()
+{
+  // for initial part of this lab
   var x = window.innerWidth/2;
   var y = window.innerHeight/2;
 
@@ -20,21 +22,19 @@ function draw() {
 
 function HandleFinger(indexFinger) {
 
-//  console.log("Index Finger is:", indexFinger); // same element as finger[1]
-//  console.log("tipPosition is:", indexFinger.tipPosition); //
-//var x = indexFinger.tipPosition[0];
-//var y = (window.innerHeight - indexFinger.tipPosition[1]); //
-//var z = indexFinger.tipPosition[2];
-
 //https://developer-archive.leapmotion.com/documentation/v2/javascript/devguide/Leap_Coordinate_Mapping.html
 var iBox = indexFinger.frame.interactionBox;
 var pointable_x = indexFinger.frame.pointables[0];
 var leapPoint_x = pointable_x.stabilizedTipPosition;
-var normalizedPoint = iBox.normalizePoint(leapPoint_x, true);
+var pointable_y = indexFinger.frame.pointables[1];
+var leapPoint_y = pointable_y.stabilizedTipPosition;
+var pointable_z = indexFinger.frame.pointables[2];
+var leapPoint_z = pointable_z.stabilizedTipPosition;
+var normalizedPoint = iBox.normalizePoint(leapPoint_x, leapPoint_y,leapPoint_z, true);
 
-  var x = normalizedPoint[0] * appWidth;
-  var y = (1 - normalizedPoint[1]) * appHeight; //
-  var z = indexFinger.tipPosition[2]; //The z-coordinate is not used
+var x = normalizedPoint[0] * appWidth;
+var y = (1 - normalizedPoint[1]) * appHeight; //
+var z = indexFinger.tipPosition[2]; //The z-coordinate is not used
 
 console.log("...rawXMin:", rawXMin, " , rawXMax:", rawXMax," , rawYMin:", rawYMin," , rawYMax:", rawYMax); //
 console.log("Raw tipPosition coordinates x:", x, " Read y: ", indexFinger.tipPosition[1], "tipPosition coordinates y:", y,"tipPosition coordinates z:", z); //
@@ -42,22 +42,17 @@ console.log("Raw tipPosition coordinates x:", x, " Read y: ", indexFinger.tipPos
   if (x>rawXMax) x=rawXMax;
   if (y<rawYMin) y=rawYMin;
   if (y>rawYMax) y=rawYMax;
-//  if (z<rawYMin) z=rawYMin;
+//  if (z<rawYMin) z=rawYMin; //The z-coordinate is not used
 //  if (z>rawYMax) z=rawYMax;
 
   circle(x,y,circle_diameter);
-//  circle(0,0,50);  // upper left
-//  circle(0,window.innerHeight,50);  // cannot see
-//  circle(0,window.innerHeight/2,50);  // half height on the left
-//  circle(window.innerWidth,window.innerHeight/2,50);  // half height on the right
-//  circle(window.innerWidth/2,window.innerHeight/2,50);  // half height , half...
   console.log("Corrected tipPosition coordinates x:", x, "tipPosition coordinates y:", y,"tipPosition coordinates z:", z); //
 
 }
 
 function HandleHand(hands) {
   var hand = hands[0];
-//  console.log("Hand is:", hand);
+//  console.log("Hand is:", hand);  // debug
   HandleFinger(hand.indexFinger);
 }
 function HandleFrame(frame) {
@@ -66,7 +61,6 @@ function HandleFrame(frame) {
   {
     HandleHand(frame.hands);
   }
-//  draw();
 i++;
 
 }

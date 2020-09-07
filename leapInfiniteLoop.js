@@ -8,15 +8,12 @@ var rawXMax = window.innerWidth-circle_diameter/2;
 var rawYMin = 0+circle_diameter/2;
 var rawYMax = window.innerHeight-circle_diameter/2;
 
-var appWidth = (rawXMax-rawXMin);
-var appHeight = (rawYMax-rawYMin);
-
-
+//https://developer-archive.leapmotion.com/documentation/v2/javascript/devguide/Leap_Coordinate_Mapping.html
+var appWidth  = rawXMax;
+var appHeight = rawYMax;
 
 Leap.loop(controllerOptions, function(frame)
 {
-//  var iBox = frame.interactionBox;
-//  var pointable = frame.pointables[0];
 
     clear();
     HandleFrame(frame);
