@@ -1,9 +1,11 @@
 var controllerOptions = {};
 
 var i = 0;
-//var x = window.innerWidth/2;
-//var y = window.innerHeight/2;
-//draw(x,y);
+
+var rawXMin = window.innerWidth;
+var rawXMax = 0;
+var rawYMin = window.innerHeight;
+var rawYMax = 0;
 
 Leap.loop(controllerOptions, function(frame)
 {
