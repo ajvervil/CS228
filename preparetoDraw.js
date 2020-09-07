@@ -8,7 +8,6 @@ function getRandomIntInclusive(min,max) {
   return Math.floor(Math.random()*(max-min+1) + min);
 }
 function draw() {
-  clear();
   var x = window.innerWidth/2;
   var y = window.innerHeight/2;
 
@@ -18,20 +17,41 @@ function draw() {
   // Draw a circle
   circle(x,y,50);
 }
+
 function HandleFinger(indexFinger) {
   console.log("Index Finger is:", indexFinger); // same element as finger[1]
   console.log("tipPosition is:", indexFinger.tipPosition); //
+  var x = indexFinger.tipPosition[0];
+  var y = indexFinger.tipPosition[1];
+  var z = indexFinger.tipPosition[2];
+  console.log("tipPosition coordinates - x:", x, "tipPosition coordinates - y:", y,"tipPosition coordinates - z:", z); //
+  return indexFinger.tipPosition;
 }
-function HandleHand(hands) {
+/*
+function HandleFinger(indexFinger,x,y) {
+  console.log("Index Finger is:", indexFinger); // same element as finger[1]
+  console.log("tipPosition is:", indexFinger.tipPosition); //
+  var x = indexFinger.tipPosition[0];
+  var y = indexFinger.tipPosition[1];
+  var z = indexFinger.tipPosition[2];
+  console.log("tipPosition coordinates - x:", x, "tipPosition coordinates - y:", y,"tipPosition coordinates - z:", z); //
+  return indexFinger.tipPosition;
+}
+*/
+function HandleHand(hands,x,y) {
   var hand = hands[0];
   console.log("Hand is:", hand);
-  HandleFinger(hand.indexFinger);
+  return HandleFinger(hand.indexFinger,x,y);
 }
 function HandleFrame(frame) {
+  var x = window.innerWidth/2;
+  var y = window.innerHeight/2;
+
   if (frame.hands.length==1)
   {
-    HandleHand(frame.hands);
+    currentPosition=HandleHand(frame.hands,x,y);
   }
+  draw();
 i++;
 
 }
