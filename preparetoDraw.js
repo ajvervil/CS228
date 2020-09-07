@@ -19,21 +19,33 @@ function draw() {
 }
 
 function HandleFinger(indexFinger) {
+
 //  console.log("Index Finger is:", indexFinger); // same element as finger[1]
 //  console.log("tipPosition is:", indexFinger.tipPosition); //
-  var x = indexFinger.tipPosition[0];
-  var y = (window.innerHeight - indexFinger.tipPosition[1]); //
-  var z = indexFinger.tipPosition[2];
+//var x = indexFinger.tipPosition[0];
+//var y = (window.innerHeight - indexFinger.tipPosition[1]); //
+//var z = indexFinger.tipPosition[2];
+
+//https://developer-archive.leapmotion.com/documentation/v2/javascript/devguide/Leap_Coordinate_Mapping.html
+var iBox = indexFinger.frame.interactionBox;
+var pointable_x = indexFinger.frame.pointables[0];
+var leapPoint_x = pointable_x.stabilizedTipPosition;
+var normalizedPoint = iBox.normalizePoint(leapPoint_x, true);
+
+  var x = normalizedPoint[0] * appWidth;
+  var y = (1 - normalizedPoint[1]) * appHeight; //
+  var z = indexFinger.tipPosition[2]; //The z-coordinate is not used
+
 console.log("...rawXMin:", rawXMin, " , rawXMax:", rawXMax," , rawYMin:", rawYMin," , rawYMax:", rawYMax); //
 console.log("Raw tipPosition coordinates x:", x, " Read y: ", indexFinger.tipPosition[1], "tipPosition coordinates y:", y,"tipPosition coordinates z:", z); //
-//  if (x<rawXMin) x=rawXMin;
-//  if (x>rawXMax) x=rawXMax;
-//  if (y<rawYMin) y=rawYMin;
-//  if (y>rawYMax) y=rawYMax;
+  if (x<rawXMin) x=rawXMin;
+  if (x>rawXMax) x=rawXMax;
+  if (y<rawYMin) y=rawYMin;
+  if (y>rawYMax) y=rawYMax;
 //  if (z<rawYMin) z=rawYMin;
 //  if (z>rawYMax) z=rawYMax;
 
-  circle(x,y,50);
+  circle(x,y,circle_diameter);
 //  circle(0,0,50);  // upper left
 //  circle(0,window.innerHeight,50);  // cannot see
 //  circle(0,window.innerHeight/2,50);  // half height on the left
