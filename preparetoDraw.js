@@ -33,14 +33,11 @@ var x = normalizedPoint[0] * appWidth;
 var y = (1 - normalizedPoint[1]) * appHeight; //
 var z = indexFinger.tipPosition[2]; //The z-coordinate is not used
 
-//console.log("...rawXMin:", rawXMin, " , rawXMax:", rawXMax," , rawYMin:", rawYMin," , rawYMax:", rawYMax); //
-//console.log("Raw tipPosition coordinates x:", x, " Read y: ", indexFinger.tipPosition[1], "tipPosition coordinates y:", y,"tipPosition coordinates z:", z); //
   if (x<rawXMin) x=rawXMin;
   if (x>rawXMax) x=rawXMax;
   if (y<rawYMin) y=rawYMin;
   if (y>rawYMax) y=rawYMax;
-//  if (z<rawYMin) z=rawYMin; //The z-coordinate is not used
-//  if (z>rawYMax) z=rawYMax;
+
 
   // https://www.geeksforgeeks.org/p5-js-circle-function/
   background(220);
@@ -50,7 +47,6 @@ var z = indexFinger.tipPosition[2]; //The z-coordinate is not used
   fill(c);
 
   circle(x,y,circle_diameter);
-  //console.log("Corrected tipPosition coordinates x:", x, "tipPosition coordinates y:", y,"tipPosition coordinates z:", z); //
 
 }
 
