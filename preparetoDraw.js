@@ -17,49 +17,50 @@ function draw()
   y+=getRandomIntInclusive(-1,1);
 }
 
-function HandleFinger(indexFinger) {
+function HandleFinger(finger) {
 
 //https://developer-archive.leapmotion.com/documentation/v2/javascript/devguide/Leap_Coordinate_Mapping.html
-var iBox = indexFinger.frame.interactionBox;
-var pointable_x = indexFinger.frame.pointables[0];
-var leapPoint_x = pointable_x.stabilizedTipPosition;
-var pointable_y = indexFinger.frame.pointables[1];
-var leapPoint_y = pointable_y.stabilizedTipPosition;
-var pointable_z = indexFinger.frame.pointables[2];
-var leapPoint_z = pointable_z.stabilizedTipPosition;
-var normalizedPoint = iBox.normalizePoint(leapPoint_x, leapPoint_y,leapPoint_z, true);
+console.log("appWidth=", appWidth, " appHeight=", appHeight  );  // debug
+console.log("HandleFinger - finger=", finger, " finger type", finger.type  );  // debug
 
-var x = normalizedPoint[0] * appWidth;
-var y = (1 - normalizedPoint[1]) * appHeight; //
-var z = indexFinger.tipPosition[2]; //The z-coordinate is not used
+var iBox = finger.frame.interactionBox;
+var pointable = finger.frame.pointables[0];
 
-  if (x<rawXMin) x=rawXMin;
-  if (x>rawXMax) x=rawXMax;
-  if (y<rawYMin) y=rawYMin;
-  if (y>rawYMax) y=rawYMax;
+var leapPoint = pointable.stabilizedTipPosition;
+var normalizedPoint = iBox.normalizePoint(leapPoint, true);
 
+var appX = normalizedPoint[0] * appWidth;
+var appY = (1 - normalizedPoint[1]) * appHeight;
+//The z-coordinate is not used
+
+console.log("HandleFinger: rawXMin=", rawXMin, " rawXMax=", rawXMax, " rawYMin=", rawYMin, " rawYMax=", rawYMax );  // debug
 
   // https://www.geeksforgeeks.org/p5-js-circle-function/
-  background(220);
   // Use color() function
   let c = color('green');
   // Use fill() function to fill color
   fill(c);
-
-  circle(x,y,circle_diameter);
-
+  circle(appX,appY,circle_diameter);
 }
 
-function HandleHand(hands) {
-  var hand = hands[0];
-//  console.log("Hand is:", hand);  // debug
-  HandleFinger(hand.indexFinger);
+function HandleHand(hand) {
+  //console.log("Hand is:", hand);  // debug
+  var fingers=hand.fingers;
+  console.log("fingers is:", fingers);  // debug
+  fingers.forEach(function(finger){
+      console.log("Finger ", finger.type," is:", finger);  // debug
+//      if(finger.type == 1) {
+//        console.log("Index Finger type:", finger.type," - finger element:", finger);  // debug
+        HandleFinger(finger); // hand.indexFinger
+//      }
+  });
 }
 function HandleFrame(frame) {
-
+  // if only 1 hand in front of device
   if (frame.hands.length==1)
   {
-    HandleHand(frame.hands);
+    var hand = frame.hands[0];
+    HandleHand(hand);
   }
 i++;
 
