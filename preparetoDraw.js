@@ -16,6 +16,19 @@ function getRandomIntInclusive(min,max) {
 //  x+=getRandomIntInclusive(-1,1);
 //  y+=getRandomIntInclusive(-1,1);
 //}
+function HandleBone(bone) {
+
+var bone_end = bone.nextJoint;  //The distal end of the bone closest to the finger tip.
+var bone_start = bone.prevJoint;//The proximal end of the bone closest to the torso.
+console.log("HandleBone - bone.type: ", bone.type, " - bone_start: ", bone_start, " - bone_end: ", bone_end);
+
+   x_basis = bone.nextJoint[0];
+   y_basis = bone.nextJoint[1];
+   z_basis = bone.nextJoint[2];
+
+    console.log("HandleBone - Tip - x= ", x_basis, " - y=", y_basis, " - z=", z_basis);
+    circle(x_basis,y_basis,circle_diameter);
+}
 
 function HandleFinger(finger) {
 
@@ -57,8 +70,15 @@ var appY = (1 - normalizedPoint[1]) * appHeight;
   }
   // Use fill() function to fill color
   fill(c);
-  circle(appX,appY,circle_diameter);
 
+  var bones = finger.bones;
+  console.log("HandleFinger - bones are: ", bones);
+
+  bones.forEach(function(bone){
+    console.log("HandleFinger - this bone is: ", bone);
+    HandleBone(bone);
+  });
+  circle(appX,appY,circle_diameter);
   console.log("HandleFinger draw circle around finger=", finger, " finger type=", finger.type, " at (", appX, ",",appY,")"  );  // debug
 }
 
@@ -68,6 +88,7 @@ function HandleHand(hand) {
   fingers.forEach(function(finger){
         HandleFinger(finger); // hand.indexFinger
   });
+
 }
 function HandleFrame(frame) {
   // if only 1 hand in front of device
