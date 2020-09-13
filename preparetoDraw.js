@@ -16,18 +16,39 @@ function getRandomIntInclusive(min,max) {
 //  x+=getRandomIntInclusive(-1,1);
 //  y+=getRandomIntInclusive(-1,1);
 //}
-function HandleBone(bone) {
 
+function HandleBone(bone,finger) {
 var bone_end = bone.nextJoint;  //The distal end of the bone closest to the finger tip.
 var bone_start = bone.prevJoint;//The proximal end of the bone closest to the torso.
-console.log("HandleBone - bone.type: ", bone.type, " - bone_start: ", bone_start, " - bone_end: ", bone_end);
 
-   x_basis = bone.nextJoint[0];
-   y_basis = bone.nextJoint[1];
-   z_basis = bone.nextJoint[2];
+   x_joint = bone.nextJoint[0];
+   y_joint = bone.nextJoint[1];
+   z_joint = bone.nextJoint[2];
 
-    console.log("HandleBone - Tip - x= ", x_basis, " - y=", y_basis, " - z=", z_basis);
-    circle(x_basis,y_basis,circle_diameter);
+/////
+//var my_finger = bone.finger;
+var iBox = bone.finger.frame.interactionBox;
+//var iBox = leap.frame.interactionBox; // -> can't find variable leap
+//var iBox = finger.frame.interactionBox;
+
+//var pointable = finger.frame.pointables[finger.type]; // display tip of each fingers
+//var pointable = finger.frame.pointables[bone.type]; // display all pinky's bone
+var pointable = finger.frame.pointables[bone.finger.type]; // display tip of each fingers
+
+var leapPoint = pointable.stabilizedTipPosition;
+var normalizedPoint = iBox.normalizePoint(leapPoint, true);
+
+var appX = normalizedPoint[0] * appWidth;
+var appY = (1 - normalizedPoint[1]) * appHeight;
+//The z-coordinate is not used
+/////
+//    console.log("HandleBone - Tip - x= ", x_basis, " - y=", y_basis, " - z=", z_basis);
+//    circle(x_basis,y_basis,circle_diameter);
+    console.log("HandleBone - Tip - x_joint= ", x_joint, " - y_joint=", y_joint, " - z=", z_joint);
+    console.log("HandleBone - Tip - x= ", appX, " - y=", appY, " - z=", z_joint);
+    circle(appX,appY,circle_diameter);
+////
+
 }
 
 function HandleFinger(finger) {
@@ -76,10 +97,11 @@ var appY = (1 - normalizedPoint[1]) * appHeight;
 
   bones.forEach(function(bone){
     console.log("HandleFinger - this bone is: ", bone);
-    HandleBone(bone);
+    HandleBone(bone,finger);
   });
-  circle(appX,appY,circle_diameter);
-  console.log("HandleFinger draw circle around finger=", finger, " finger type=", finger.type, " at (", appX, ",",appY,")"  );  // debug
+
+//  circle(appX,appY,circle_diameter);
+//  console.log("HandleFinger draw circle around finger=", finger, " finger type=", finger.type, " at (", appX, ",",appY,")"  );  // debug
 }
 
 function HandleHand(hand) {
